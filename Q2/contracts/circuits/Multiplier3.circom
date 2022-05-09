@@ -1,17 +1,31 @@
 pragma circom 2.0.0;
 
-// [assignment] Modify the circuit below to perform a multiplication of three signals
+template Multiplier2(){
+     signal input a;
+     signal input b;
+     signal output c;
 
-template Multiplier3 () {  
+     c <== a * b;
+}
 
-   // Declaration of signals.  
-   signal input a;  
+
+
+//This circuit multiplies in1, in2, and in3.
+template Multiplier3 () {
+   //Declaration of signals and components.
+   signal input a;
    signal input b;
    signal input c;
-   signal output d;  
+   signal output out;
+   component mult1 = Multiplier2();
+   component Multiplier2 = Multiplier2();
 
-   // Constraints.  
-   d <== a * b * c;  
+   //Statements.
+   mult1.a <== a;
+   mult1.b <== b;
+   Multiplier2.a <== mult1.c;
+   Multiplier2.b <== c;
+   out <== Multiplier2.c;
 }
 
 component main = Multiplier3();
